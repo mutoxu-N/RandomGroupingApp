@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RandomGroupingApp</string>
+    <string name="sample_pt">100pt</string>
+    <string name="roll">Roll!</string>
+</resources>
