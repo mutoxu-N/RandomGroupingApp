@@ -3,6 +3,10 @@ package com.github.mutoxu_n.randomgroupingapp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivityViewModel: ViewModel() {
     private var _players: List<Player> = listOf()
@@ -15,6 +19,18 @@ class MainActivityViewModel: ViewModel() {
 
     private val _updateCount: MutableLiveData<Int> = MutableLiveData(0)
     val updateCount: LiveData<Int> get() = _updateCount
+
+    init {
+        getPlayers()
+    }
+
+    fun getPlayers() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _players = Database.getDatabase().playerDAO().getAll()
+            }
+        }
+    }
 
     fun roll() {
         _updateCount.value = _updateCount.value!! + 1

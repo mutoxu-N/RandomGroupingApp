@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "players")
 data class Player(
     @PrimaryKey(autoGenerate = false) val name: String,
-    @ColumnInfo(name = "weight") val weight: Int
+    @ColumnInfo(name = "point") val point: Int
 )
