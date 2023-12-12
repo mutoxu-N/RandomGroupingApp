@@ -33,6 +33,8 @@ class MainActivityViewModel: ViewModel() {
     }
 
     fun roll() {
+        // TODO: 重み付きでランダム振り分け
+        val candidates = _players.toMutableList()
         _updateCount.value = _updateCount.value!! + 1
     }
 }
