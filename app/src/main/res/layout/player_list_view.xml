@@ -8,21 +8,25 @@
         android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingVertical="3dp"
         app:layout_constraintHorizontal_weight="5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tvPoint"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/name"/>
+        android:text="@string/name"
+        android:textSize="@dimen/list_text_size"/>
 
     <TextView
         android:id="@+id/tvPoint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingVertical="3dp"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toEndOf="@id/tvName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBaseline_toBaselineOf="@id/tvName"
         android:gravity="end"
-        android:text="@string/point"/>
+        android:text="@string/point"
+        android:textSize="20sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

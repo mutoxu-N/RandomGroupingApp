@@ -45,7 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         // view model
         viewModel.updateCount.observe(this) {
+            binding.tvLeft.text = getString(R.string.n_pt, viewModel.point1)
             binding.rvLeft.adapter = PlayerViewAdapter(viewModel.group1)
+
+            binding.tvRight.text = getString(R.string.n_pt, viewModel.point2)
             binding.rvRight.adapter = PlayerViewAdapter(viewModel.group2)
         }
 
