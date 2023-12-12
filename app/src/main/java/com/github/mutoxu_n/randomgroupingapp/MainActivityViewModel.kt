@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel: ViewModel() {
+    private var _players: List<Player> = listOf()
+
     private var _group1: List<Player> = listOf()
     val group1 get() = _group1
 
