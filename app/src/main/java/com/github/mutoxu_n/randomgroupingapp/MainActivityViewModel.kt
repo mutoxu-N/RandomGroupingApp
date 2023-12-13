@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.math.abs
 import kotlin.math.exp
 import kotlin.math.max
 import kotlin.math.pow
@@ -63,15 +62,16 @@ class MainActivityViewModel: ViewModel() {
         isG1 = false
 
         while(candidates.size > 0) {
-            // 得点先順で正規分布を設定
+            // 得点差で正規分布を設定
             // |sum1 - sum2| に近いプレイヤーが選ばれやすくする
-            mean = max(.0, (if(isG1) sum1 - sum2 else sum2 - sum1).toDouble())
+            mean = max(.0, (if(isG1) sum2 - sum1 else sum1 - sum2).toDouble())
 
             // 分散
-            temp = .0
-            candidates.forEach { p -> temp += (p.point - mean).pow(2.0) }
-            sigma = temp / candidates.size
-            if(mean == .0) sigma /= 2
+            temp = candidates[0].point.toDouble() // max
+            candidates.forEach { p ->
+                if(temp < kotlin.math.abs(p.point.toDouble() - mean)) temp = kotlin.math.abs(p.point.toDouble() - mean)
+            }
+            sigma = temp / 3
 
             // 重み計算
             probabilities.removeAll(probabilities)
@@ -80,14 +80,21 @@ class MainActivityViewModel: ViewModel() {
             }
 
             // random pick
-            temp = probabilities.sum()
-            temp *= Math.random() // 目標累積値
-            mean = .0 // 累積和を mean に保存する
-            for(i in 0 until probabilities.size) {
-                mean += probabilities[i]
-                if(mean >= temp) {
-                    idx = i
-                    break
+            if(mean == .0 && sigma == .0) {
+                // ランダムに選定
+                idx = (0 until candidates.size).shuffled().first()
+
+            } else {
+                // 確率からピック
+                temp = probabilities.sum()
+                temp *= Math.random() // 目標累積値
+                mean = .0 // 累積和を mean に保存する
+                for(i in 0 until probabilities.size) {
+                    mean += probabilities[i]
+                    if(mean >= temp) {
+                        idx = i
+                        break
+                    }
                 }
             }
 
