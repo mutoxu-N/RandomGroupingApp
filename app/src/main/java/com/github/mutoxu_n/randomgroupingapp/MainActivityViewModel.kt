@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 import kotlin.math.exp
+import kotlin.math.max
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -64,12 +65,13 @@ class MainActivityViewModel: ViewModel() {
         while(candidates.size > 0) {
             // 得点先順で正規分布を設定
             // |sum1 - sum2| に近いプレイヤーが選ばれやすくする
-            mean = abs(sum1 - sum2).toDouble()
+            mean = max(.0, (if(isG1) sum1 - sum2 else sum2 - sum1).toDouble())
 
             // 分散
             temp = .0
             candidates.forEach { p -> temp += (p.point - mean).pow(2.0) }
             sigma = temp / candidates.size
+            if(mean == .0) sigma /= 2
 
             // 重み計算
             probabilities.removeAll(probabilities)
